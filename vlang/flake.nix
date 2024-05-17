@@ -1,7 +1,7 @@
 {
-  description = "A Nix-flake-based Python development environment";
+  description = "A Nix-flake-based Vlang development environment";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
 
   outputs = { self, nixpkgs }:
     let
@@ -13,12 +13,9 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          venvDir = "venv";
-          packages = with pkgs; [ python311 ] ++
-            (with pkgs.python311Packages; [ 
-              pip
-              venvShellHook 
-            ]);
+          packages = with pkgs; [
+            vlang
+          ];
         };
       });
     };
