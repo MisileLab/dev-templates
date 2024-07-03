@@ -82,7 +82,7 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ build check format update ];
+          packages = with pkgs; [ build check format update nixpkgs-fmt ];
         };
       });
 
@@ -191,6 +191,11 @@
           description = "Node.js development environment";
         };
 
+        ocaml = {
+          path = ./ocaml;
+          description = "OCaml development environment";
+        };
+
         opa = {
           path = ./opa;
           description = "Open Policy Agent development environment";
@@ -219,6 +224,11 @@
         python = {
           path = ./python;
           description = "Python development environment";
+        };
+
+        r = {
+          path = ./r;
+          description = "R development environment";
         };
 
         ruby = {
