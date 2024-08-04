@@ -96,6 +96,13 @@
 
     {
       templates = rec {
+        default = empty;
+
+        bun = {
+          path = ./bun;
+          description = "Bun development environment";
+        };
+
         c-cpp = {
           path = ./c-cpp;
           description = "C/C++ development environment";
@@ -254,6 +261,11 @@
         shell = {
           path = ./shell;
           description = "Shell script development environment";
+        };
+
+        swift = {
+          path = ./swift;
+          description = "Swift development environment";
         };
 
         vlang = {

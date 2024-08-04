@@ -1,7 +1,7 @@
 {
-  description = "A Nix-flake-based Bun development environment";
+  description = "A Nix-flake-based Swift development environment";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
 
   outputs = { self, nixpkgs }:
     let
@@ -13,7 +13,10 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ bun ];
+          packages = with pkgs; [
+            swift
+            sourcekit-lsp
+          ];
         };
       });
     };
