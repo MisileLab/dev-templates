@@ -168,6 +168,11 @@
           description = "Java development environment";
         };
 
+        jupyter = {
+          path = ./jupyter;
+          description = "Jupyter development environment";
+        };
+
         kotlin = {
           path = ./kotlin;
           description = "Kotlin development environment";
@@ -211,6 +216,11 @@
         php = {
           path = ./php;
           description = "PHP development environment";
+        };
+
+        platformio = {
+          path = ./platformio;
+          description = "PlatformIO development environment";
         };
 
         protobuf = {
@@ -279,9 +289,9 @@
         };
 
         # Aliases
-        rt = rust-toolchain;
         c = c-cpp;
         cpp = c-cpp;
+        rt = rust-toolchain;
       };
     };
 }
