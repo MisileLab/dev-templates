@@ -64,7 +64,7 @@ Once your preferred template has been initialized, you can use the provided shel
 | [Rust]                           | [`rust`](./rust/)                     |
 | [Rust from toolchain file][rust] | [`rust-toolchain`](./rust-toolchain/) |
 | [Scala]                          | [`scala`](./scala/)                   |
-| [Shell]                          | [`shell`](./shell/)                   |
+| [Shell](#shell)                  | [`shell`](./shell/)                   |
 | [Swift]                          | [`swift`](./swift)                    |
 | [Vlang]                          | [`vlang`](./vlang/)                   |
 | [Zig]                            | [`zig`](./zig/)                       |
@@ -75,7 +75,7 @@ The sections below list what each template includes. In all cases, you're free t
 
 ### [`bun`](./bun/)
 
-- [bun] 1.1.8
+- [bun] 1.1.29
 
 ### [`c-cpp`](./c-cpp/)
 
@@ -176,7 +176,7 @@ A dev template that's fully customizable.
 
 ### [`jupyter`](./jupyter/)
 
-- [Jupyter core] [jupyter] 5.7.2
+- [Jupyter core][jupyter] 5.7.2
 
 ### [`kotlin`](./kotlin/)
 
@@ -188,6 +188,10 @@ A dev template that's fully customizable.
 - [texlive]
 - [tectonic]
 - [texlab]
+
+### [`lean4`](./lean4/)
+
+- [Lean] 4.9.0
 
 ### [`nickel`](./nickel/)
 
@@ -322,6 +326,7 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [cargo]: https://doc.rust-lang.org/cargo
 [cargo-audit]: https://crates.io/crates/cargo-audit
 [cargo-deny]: https://crates.io/crates/cargo-deny
+[cargo-edit]: https://crates.io/crates/cargo-edit
 [clang-tools]: https://clang.llvm.org
 [clippy]: https://github.com/rust-lang/rust-clippy
 [clojure]: https://clojure.org
@@ -372,6 +377,7 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [knitr]: https://yihui.org/knitr
 [kotlin]: https://kotlinlang.org
 [latex]: https://latex-project.org
+[lean]: https://lean-lang.org
 [lcov]: https://ltp.sourceforge.net/coverage/lcov.php
 [leiningen]: https://leiningen.org
 [levant]: https://github.com/hashicorp/levant
