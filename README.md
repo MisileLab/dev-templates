@@ -64,7 +64,8 @@ Once your preferred template has been initialized, you can use the provided shel
 | [Rust]                           | [`rust`](./rust/)                     |
 | [Rust from toolchain file][rust] | [`rust-toolchain`](./rust-toolchain/) |
 | [Scala]                          | [`scala`](./scala/)                   |
-| [Shell](#shell)                  | [`shell`](./shell/)                   |
+| [Shell]                          | [`shell`](./shell/)                   |
+| [SWI-prolog]                     | [`swi-prolog`](./swi-prolog/)         |
 | [Swift]                          | [`swift`](./swift)                    |
 | [Vlang]                          | [`vlang`](./vlang/)                   |
 | [Zig]                            | [`zig`](./zig/)                       |
@@ -299,6 +300,10 @@ A dev template that's fully customizable.
 
 - [shellcheck] 0.9.0
 
+### [`swi-prolog`](./swi-prolog/)
+
+- [swipl][swi-prolog] 9.2.7
+
 ### [`swift`](./swift/)
 
 - [Swift] 5.8
@@ -311,6 +316,8 @@ A dev template that's fully customizable.
 ### [`zig`](./zig/)
 
 - [Zig] 0.10.1
+- [LLDB] 16.0.6
+- [ZLS] 0.13.0
 
 ## Code organization
 
@@ -381,6 +388,7 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [lcov]: https://ltp.sourceforge.net/coverage/lcov.php
 [leiningen]: https://leiningen.org
 [levant]: https://github.com/hashicorp/levant
+[lldb]: https://lldb.llvm.org
 [lorri]: https://github.com/target/lorri
 [maven]: https://maven.apache.org
 [mix]: https://elixir-lang.org/getting-started/mix-otp/introduction-to-mix.html
@@ -431,6 +439,7 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [sbt]: https://scala-sbt.org
 [sourcekit-lsp]: https://github.com/swiftlang/sourcekit-lsp
 [spago]: https://github.com/purescript/spago
+[swi-prolog]: https://www.swi-prolog.org
 [swift]: https://swift.org
 [tectonic]: https://tectonic-typesetting.github.io
 [terraform]: https://terraform.io
@@ -445,3 +454,4 @@ All of the templates have only the root [flake](./flake.nix) as a flake input. T
 [yarn]: https://yarnpkg.com
 [vlang]: https://vlang.io
 [zig]: https://ziglang.org
+[zls]: https://github.com/zigtools/zls

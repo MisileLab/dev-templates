@@ -1,7 +1,7 @@
 {
-  description = "A Nix-flake-based Zig development environment";
+  description = "A Nix-flake-based Swi-prolog development environment";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
 
   outputs = { self, nixpkgs }:
     let
@@ -13,7 +13,7 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ zig zls lldb ];
+          packages = with pkgs; [ swi-prolog ];
         };
       });
     };
