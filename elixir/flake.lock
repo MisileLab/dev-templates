@@ -7,7 +7,7 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "33b8b546dd445f70d4067ae044664390393b6df2",
-        "type": "github"
+        "type": "github",
         "lastModified": 1731676054,
         "narHash": "sha256-OZiZ3m8SCMfh3B6bfGC/Bm4x3qc1m2SVEAlkV6iY7Yg=",
         "rev": "5e4fbfb6b3de1aa2872b76d49fafc942626e2add",

@@ -95,7 +95,7 @@
                 --experimental-features 'nix-command flakes' \
                 flake init \
                 --template \
-                "github:the-nix-way/dev-templates#''${TEMPLATE}"
+                "github:misilelab/dev-templates#''${TEMPLATE}"
             '';
           };
         }
