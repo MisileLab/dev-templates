@@ -3,11 +3,11 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
-  outputs = { self, nixpkgs }:
+  outputs = inputs:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
+      forEachSupportedSystem = f: inputs.nixpkgs.lib.genAttrs supportedSystems (system: f {
+        pkgs = import inputs.nixpkgs { inherit system; };
       });
 
       /*
@@ -24,7 +24,7 @@
        * present. For safety, removal should
        * be a manual step, even if trivial.
        */
-      version = "3.13";
+      version = "3.14";
     in
     {
       devShells = forEachSupportedSystem ({ pkgs }:

@@ -5,7 +5,7 @@
   inputs.nixpkgs.url = "github:nixos/nixpkgs";
 
   # Flake outputs
-  outputs = { self, nixpkgs }:
+  outputs = inputs:
     let
       # The systems supported for this flake
       supportedSystems = [
@@ -16,8 +16,8 @@
       ];
 
       # Helper to provide system-specific attributes
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
+      forEachSupportedSystem = f: inputs.nixpkgs.lib.genAttrs supportedSystems (system: f {
+        pkgs = import inputs.nixpkgs { inherit system; };
       });
     in
     {

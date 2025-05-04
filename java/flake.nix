@@ -3,18 +3,20 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
-  outputs = { self, nixpkgs }:
+  outputs = inputs:
     let
       javaVersion = 23; # Change this value to update the whole stack
 
       supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; overlays = [ self.overlays.default ]; };
+      forEachSupportedSystem = f: inputs.nixpkgs.lib.genAttrs supportedSystems (system: f {
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+          overlays = [ inputs.self.overlays.default ];
+        };
       });
     in
     {
-      overlays.default =
-        final: prev:
+      overlays.default = final: prev:
         let
           jdk = prev."jdk${toString javaVersion}";
         in
