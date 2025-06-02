@@ -2,9 +2,9 @@
   description = "A Nix-flake-based Rust development environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    fenix = {
+      url = "https://flakehub.com/f/nix-community/fenix/0.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -16,7 +16,6 @@
         pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [
-            inputs.rust-overlay.overlays.default
             inputs.self.overlays.default
           ];
         };
@@ -24,18 +23,14 @@
     in
     {
       overlays.default = final: prev: {
-        rustToolchain =
-          let
-            rust = prev.rust-bin;
-          in
-          if builtins.pathExists ./rust-toolchain.toml then
-            rust.fromRustupToolchainFile ./rust-toolchain.toml
-          else if builtins.pathExists ./rust-toolchain then
-            rust.fromRustupToolchainFile ./rust-toolchain
-          else
-            rust.stable.latest.default.override {
-              extensions = [ "rust-src" "rustfmt" ];
-            };
+        rustToolchain = with inputs.fenix.packages.${prev.stdenv.hostPlatform.system};
+          combine (with stable; [
+            clippy
+            rustc
+            cargo
+            rustfmt
+            rust-src
+          ]);
       };
 
       devShells = forEachSupportedSystem ({ pkgs }: {
