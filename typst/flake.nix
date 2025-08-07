@@ -1,7 +1,7 @@
 {
-  description = "A Nix-flake-based PHP development environment";
+  description = "A Nix-flake-based Typst development environment";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 
   outputs =
     inputs:
@@ -17,7 +17,9 @@
         inputs.nixpkgs.lib.genAttrs supportedSystems (
           system:
           f {
-            pkgs = import inputs.nixpkgs { inherit system; };
+            pkgs = import inputs.nixpkgs {
+              inherit system;
+            };
           }
         );
     in
@@ -27,8 +29,7 @@
         {
           default = pkgs.mkShell {
             packages = with pkgs; [
-              php
-              phpPackages.composer
+              typst
             ];
           };
         }
