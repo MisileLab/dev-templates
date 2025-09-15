@@ -4,7 +4,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
   outputs =
-    inputs:
+    { self, ... }@inputs:
     let
       supportedSystems = [
         "x86_64-linux"
@@ -17,12 +17,13 @@
         inputs.nixpkgs.lib.genAttrs supportedSystems (
           system:
           f {
+            inherit system;
             pkgs = import inputs.nixpkgs { inherit system; };
           }
         );
 
       scriptDrvs = forEachSupportedSystem (
-        { pkgs }:
+        { pkgs, ... }:
         let
           getSystem = "SYSTEM=$(nix eval --impure --raw --expr 'builtins.currentSystem')";
           forEachDir = exec: ''
@@ -64,20 +65,12 @@
               nix flake check --all-systems --no-build
             '';
           };
-
-          update = pkgs.writeShellApplication {
-            name = "update";
-            text = forEachDir ''
-              echo "updating ''${dir}"
-              nix flake update
-            '';
-          };
         }
       );
     in
     {
       devShells = forEachSupportedSystem (
-        { pkgs }:
+        { pkgs, system }:
         {
           default = pkgs.mkShell {
             packages =
@@ -86,17 +79,16 @@
                 build
                 check
                 format
-                update
               ]
-              ++ [ pkgs.nixfmt-rfc-style ];
+              ++ [ self.formatter.${system} ];
           };
         }
       );
 
-      formatter = forEachSupportedSystem ({ pkgs }: pkgs.nixfmt-rfc-style);
+      formatter = forEachSupportedSystem ({ pkgs, ... }: pkgs.nixfmt-rfc-style);
 
       packages = forEachSupportedSystem (
-        { pkgs }:
+        { pkgs, ... }:
         rec {
           default = dvt;
           dvt = pkgs.writeShellApplication {
