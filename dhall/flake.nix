@@ -4,7 +4,8 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
   outputs =
-    inputs:
+    { self, ... }@inputs:
+
     let
       supportedSystems = [
         "x86_64-linux"
@@ -42,7 +43,7 @@
                 "yaml"
               ];
             in
-            pkgs.mkShell {
+            pkgs.mkShellNoCC {
               packages = (with pkgs; [ dhall ]) ++ dhallTools;
             };
         }

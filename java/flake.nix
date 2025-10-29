@@ -4,7 +4,8 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
   outputs =
-    inputs:
+    { self, ... }@inputs:
+
     let
       javaVersion = 23; # Change this value to update the whole stack
 
@@ -42,7 +43,7 @@
       devShells = forEachSupportedSystem (
         { pkgs }:
         {
-          default = pkgs.mkShell {
+          default = pkgs.mkShellNoCC {
             packages = with pkgs; [
               gcc
               gradle

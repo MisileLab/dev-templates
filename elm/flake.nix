@@ -4,7 +4,8 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
   outputs =
-    inputs:
+    { self, ... }@inputs:
+
     let
       supportedSystems = [
         "x86_64-linux"
@@ -25,8 +26,13 @@
       devShells = forEachSupportedSystem (
         { pkgs }:
         {
-          default = pkgs.mkShell {
-            packages = (with pkgs.elmPackages; [ elm ]) ++ (with pkgs; [ elm2nix ]);
+          default = pkgs.mkShellNoCC {
+            packages =
+              with pkgs;
+              [
+                elm2nix
+              ]
+              ++ (with elmPackages; [ elm ]);
           };
         }
       );

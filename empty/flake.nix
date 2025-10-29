@@ -6,7 +6,8 @@
 
   # Flake outputs
   outputs =
-    inputs:
+    { self, ... }@inputs:
+
     let
       # The systems supported for this flake
       supportedSystems = [
@@ -30,7 +31,7 @@
       devShells = forEachSupportedSystem (
         { pkgs }:
         {
-          default = pkgs.mkShell {
+          default = pkgs.mkShellNoCC {
             # The Nix packages provided in the environment
             # Add any you need here
             packages = with pkgs; [ ];

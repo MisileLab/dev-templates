@@ -4,7 +4,8 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
   outputs =
-    inputs:
+    { self, ... }@inputs:
+
     let
       supportedSystems = [
         "x86_64-linux"
@@ -52,7 +53,7 @@
           python = pkgs."python${concatMajorMinor version}";
         in
         {
-          default = pkgs.mkShell {
+          default = pkgs.mkShellNoCC {
             venvDir = ".venv";
 
             postShellHook = ''

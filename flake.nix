@@ -21,71 +21,63 @@
             pkgs = import inputs.nixpkgs { inherit system; };
           }
         );
-
-      scriptDrvs = forEachSupportedSystem (
-        { pkgs, ... }:
-        let
-          getSystem = "SYSTEM=$(nix eval --impure --raw --expr 'builtins.currentSystem')";
-          forEachDir = exec: ''
-            for dir in */; do
-              (
-                cd "''${dir}"
-
-                ${exec}
-              )
-            done
-          '';
-        in
-        {
-          format = pkgs.writeShellApplication {
-            name = "format";
-            runtimeInputs = with pkgs; [ nixfmt-rfc-style ];
-            text = ''
-              git ls-files '**/*.nix' | xargs nix fmt
-            '';
-          };
-
-          # only run this locally, as Actions will run out of disk space
-          build = pkgs.writeShellApplication {
-            name = "build";
-            text = ''
-              ${getSystem}
-
-              ${forEachDir ''
-                echo "building ''${dir}"
-                nix build ".#devShells.''${SYSTEM}.default"
-              ''}
-            '';
-          };
-
-          check = pkgs.writeShellApplication {
-            name = "check";
-            text = forEachDir ''
-              echo "checking ''${dir}"
-              nix flake check --all-systems --no-build
-            '';
-          };
-        }
-      );
     in
     {
       devShells = forEachSupportedSystem (
         { pkgs, system }:
         {
-          default = pkgs.mkShell {
-            packages =
-              with scriptDrvs.${pkgs.system};
-              [
-                build
-                check
-                format
-              ]
-              ++ [ self.formatter.${system} ];
-          };
+          default =
+            let
+              getSystem = "SYSTEM=$(nix eval --impure --raw --expr 'builtins.currentSystem')";
+              forEachDir = exec: ''
+                for dir in */; do
+                  (
+                    cd "''${dir}"
+
+                    ${exec}
+                  )
+                done
+              '';
+
+              script =
+                name: runtimeInputs: text:
+                pkgs.writeShellApplication {
+                  inherit name runtimeInputs text;
+                  bashOptions = [
+                    "errexit"
+                    "pipefail"
+                  ];
+                };
+            in
+            pkgs.mkShellNoCC {
+              packages =
+                with pkgs;
+                [
+                  (script "build" [ ] ''
+                    ${getSystem}
+
+                    ${forEachDir ''
+                      echo "building ''${dir}"
+                      nix build ".#devShells.''${SYSTEM}.default"
+                    ''}
+                  '')
+                  (script "check" [ nixfmt ] (forEachDir ''
+                    echo "checking ''${dir}"
+                    nix flake check --all-systems --no-build
+                  ''))
+                  (script "format" [ nixfmt ] ''
+                    git ls-files '*.nix' | xargs nix fmt
+                  '')
+                  (script "check-formatting" [ nixfmt ] ''
+                    git ls-files '*.nix' | xargs nixfmt --check
+                  '')
+                ]
+                ++ [ self.formatter.${system} ];
+            };
         }
       );
 
-      formatter = forEachSupportedSystem ({ pkgs, ... }: pkgs.nixfmt-rfc-style);
+      formatter = forEachSupportedSystem ({ pkgs, ... }: pkgs.nixfmt);
 
       packages = forEachSupportedSystem (
         { pkgs, ... }:
